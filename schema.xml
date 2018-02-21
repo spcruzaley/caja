@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="caja_db" defaultIdMethod="native">
+  <table name="socio" phpName="Socio">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="nombre" type="varchar" size="255" required="true" />
+    <column name="correo" type="varchar" size="50" required="false" />
+    <column name="cantidad" type="integer" required="true"/>
+    <behavior name="timestampable" />
+  </table>
+  <table name="ahorro" phpName="Ahorro">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="socio_id" type="integer" required="true"/>
+    <column name="semana" type="integer" required="true"/>
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="socio" phpName="Socio" refPhpName="Ahorro">
+      <reference local="socio_id" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="prestamo" phpName="Prestamo">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="socio_id" type="integer" required="true"/>
+    <column name="cantidad" type="integer" required="true"/>
+    <column name="interes" type="integer" required="true"/>
+    <column name="comentario" type="varchar" size="250" required="false" />
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="socio" phpName="Socio" refPhpName="Prestamo">
+      <reference local="socio_id" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="multa" phpName="Multa">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="socio_id" type="integer" required="true"/>
+    <column name="cantidad" type="integer" required="true"/>
+    <column name="comentario" type="varchar" size="250" required="false" />
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="socio" phpName="Socio" refPhpName="Multa">
+      <reference local="socio_id" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="abono" phpName="Abono">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="socio_id" type="integer" required="true"/>
+    <column name="prestamo_id" type="integer" required="true"/>
+    <column name="capital" type="integer" required="false"/>
+    <column name="interes" type="integer" required="false"/>
+    <column name="comentario" type="varchar" size="250" required="false" />
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="socio" phpName="Socio" refPhpName="Abono">
+      <reference local="socio_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="prestamo" phpName="Prestamo" refPhpName="Abono">
+      <reference local="prestamo_id" foreign="id"/>
+    </foreign-key>
+  </table>
+</database>
