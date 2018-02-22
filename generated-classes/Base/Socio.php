@@ -2341,6 +2341,31 @@ abstract class Socio implements ActiveRecordInterface
         return $this;
     }
 
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Socio is new, it will return
+     * an empty collection; or if this Socio has previously
+     * been saved, it will retrieve related Multas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Socio.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildMulta[] List of ChildMulta objects
+     */
+    public function getMultasJoinAhorro(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildMultaQuery::create(null, $criteria);
+        $query->joinWith('Ahorro', $joinBehavior);
+
+        return $this->getMultas($query, $con);
+    }
+
     /**
      * Clears out the collAbonos collection
      *

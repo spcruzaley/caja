@@ -73,13 +73,18 @@ DROP TABLE IF EXISTS `multa`;
 CREATE TABLE `multa`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `ahorro_id` INTEGER NOT NULL,
     `socio_id` INTEGER NOT NULL,
     `cantidad` INTEGER NOT NULL,
     `comentario` VARCHAR(250),
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),
+    INDEX `multa_fi_415ccd` (`ahorro_id`),
     INDEX `multa_fi_243464` (`socio_id`),
+    CONSTRAINT `multa_fk_415ccd`
+        FOREIGN KEY (`ahorro_id`)
+        REFERENCES `ahorro` (`id`),
     CONSTRAINT `multa_fk_243464`
         FOREIGN KEY (`socio_id`)
         REFERENCES `socio` (`id`)

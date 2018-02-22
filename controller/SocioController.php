@@ -26,7 +26,7 @@ class SocioController extends Controller {
             return $this->error("Ocurrio un error al insertar el socio.", $e);
         }
     }
-
+    
     function selectSocio($id) {
         try {
             $socio = SocioQuery::create()->findPk($id);

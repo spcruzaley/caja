@@ -31,10 +31,14 @@
   </table>
   <table name="multa" phpName="Multa">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="ahorro_id" type="integer" required="true"/>
     <column name="socio_id" type="integer" required="true"/>
     <column name="cantidad" type="integer" required="true"/>
     <column name="comentario" type="varchar" size="250" required="false" />
     <behavior name="timestampable" />
+    <foreign-key foreignTable="ahorro" phpName="Ahorro" refPhpName="Multa">
+      <reference local="ahorro_id" foreign="id"/>
+    </foreign-key>
     <foreign-key foreignTable="socio" phpName="Socio" refPhpName="Multa">
       <reference local="socio_id" foreign="id"/>
     </foreign-key>

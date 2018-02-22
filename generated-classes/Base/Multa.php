@@ -2,6 +2,8 @@
 
 namespace Base;
 
+use \Ahorro as ChildAhorro;
+use \AhorroQuery as ChildAhorroQuery;
 use \Multa as ChildMulta;
 use \MultaQuery as ChildMultaQuery;
 use \Socio as ChildSocio;
@@ -72,6 +74,13 @@ abstract class Multa implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the ahorro_id field.
+     *
+     * @var        int
+     */
+    protected $ahorro_id;
+
+    /**
      * The value for the socio_id field.
      *
      * @var        int
@@ -105,6 +114,11 @@ abstract class Multa implements ActiveRecordInterface
      * @var        DateTime
      */
     protected $updated_at;
+
+    /**
+     * @var        ChildAhorro
+     */
+    protected $aAhorro;
 
     /**
      * @var        ChildSocio
@@ -355,6 +369,16 @@ abstract class Multa implements ActiveRecordInterface
     }
 
     /**
+     * Get the [ahorro_id] column value.
+     *
+     * @return int
+     */
+    public function getAhorroId()
+    {
+        return $this->ahorro_id;
+    }
+
+    /**
      * Get the [socio_id] column value.
      *
      * @return int
@@ -443,6 +467,30 @@ abstract class Multa implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [ahorro_id] column.
+     *
+     * @param int $v new value
+     * @return $this|\Multa The current object (for fluent API support)
+     */
+    public function setAhorroId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->ahorro_id !== $v) {
+            $this->ahorro_id = $v;
+            $this->modifiedColumns[MultaTableMap::COL_AHORRO_ID] = true;
+        }
+
+        if ($this->aAhorro !== null && $this->aAhorro->getId() !== $v) {
+            $this->aAhorro = null;
+        }
+
+        return $this;
+    } // setAhorroId()
 
     /**
      * Set the value of [socio_id] column.
@@ -587,22 +635,25 @@ abstract class Multa implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MultaTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MultaTableMap::translateFieldName('SocioId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MultaTableMap::translateFieldName('AhorroId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ahorro_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MultaTableMap::translateFieldName('SocioId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->socio_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MultaTableMap::translateFieldName('Cantidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MultaTableMap::translateFieldName('Cantidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->cantidad = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MultaTableMap::translateFieldName('Comentario', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MultaTableMap::translateFieldName('Comentario', TableMap::TYPE_PHPNAME, $indexType)];
             $this->comentario = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MultaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MultaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MultaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MultaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -615,7 +666,7 @@ abstract class Multa implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = MultaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = MultaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Multa'), 0, $e);
@@ -637,6 +688,9 @@ abstract class Multa implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aAhorro !== null && $this->ahorro_id !== $this->aAhorro->getId()) {
+            $this->aAhorro = null;
+        }
         if ($this->aSocio !== null && $this->socio_id !== $this->aSocio->getId()) {
             $this->aSocio = null;
         }
@@ -679,6 +733,7 @@ abstract class Multa implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aAhorro = null;
             $this->aSocio = null;
         } // if (deep)
     }
@@ -801,6 +856,13 @@ abstract class Multa implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
+            if ($this->aAhorro !== null) {
+                if ($this->aAhorro->isModified() || $this->aAhorro->isNew()) {
+                    $affectedRows += $this->aAhorro->save($con);
+                }
+                $this->setAhorro($this->aAhorro);
+            }
+
             if ($this->aSocio !== null) {
                 if ($this->aSocio->isModified() || $this->aSocio->isNew()) {
                     $affectedRows += $this->aSocio->save($con);
@@ -848,6 +910,9 @@ abstract class Multa implements ActiveRecordInterface
         if ($this->isColumnModified(MultaTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
+        if ($this->isColumnModified(MultaTableMap::COL_AHORRO_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'ahorro_id';
+        }
         if ($this->isColumnModified(MultaTableMap::COL_SOCIO_ID)) {
             $modifiedColumns[':p' . $index++]  = 'socio_id';
         }
@@ -876,6 +941,9 @@ abstract class Multa implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'ahorro_id':
+                        $stmt->bindValue($identifier, $this->ahorro_id, PDO::PARAM_INT);
                         break;
                     case 'socio_id':
                         $stmt->bindValue($identifier, $this->socio_id, PDO::PARAM_INT);
@@ -958,18 +1026,21 @@ abstract class Multa implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getSocioId();
+                return $this->getAhorroId();
                 break;
             case 2:
-                return $this->getCantidad();
+                return $this->getSocioId();
                 break;
             case 3:
-                return $this->getComentario();
+                return $this->getCantidad();
                 break;
             case 4:
-                return $this->getCreatedAt();
+                return $this->getComentario();
                 break;
             case 5:
+                return $this->getCreatedAt();
+                break;
+            case 6:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1003,18 +1074,19 @@ abstract class Multa implements ActiveRecordInterface
         $keys = MultaTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getSocioId(),
-            $keys[2] => $this->getCantidad(),
-            $keys[3] => $this->getComentario(),
-            $keys[4] => $this->getCreatedAt(),
-            $keys[5] => $this->getUpdatedAt(),
+            $keys[1] => $this->getAhorroId(),
+            $keys[2] => $this->getSocioId(),
+            $keys[3] => $this->getCantidad(),
+            $keys[4] => $this->getComentario(),
+            $keys[5] => $this->getCreatedAt(),
+            $keys[6] => $this->getUpdatedAt(),
         );
-        if ($result[$keys[4]] instanceof \DateTimeInterface) {
-            $result[$keys[4]] = $result[$keys[4]]->format('c');
-        }
-
         if ($result[$keys[5]] instanceof \DateTimeInterface) {
             $result[$keys[5]] = $result[$keys[5]]->format('c');
+        }
+
+        if ($result[$keys[6]] instanceof \DateTimeInterface) {
+            $result[$keys[6]] = $result[$keys[6]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1023,6 +1095,21 @@ abstract class Multa implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->aAhorro) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'ahorro';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'ahorro';
+                        break;
+                    default:
+                        $key = 'Ahorro';
+                }
+
+                $result[$key] = $this->aAhorro->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
             if (null !== $this->aSocio) {
 
                 switch ($keyType) {
@@ -1076,18 +1163,21 @@ abstract class Multa implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setSocioId($value);
+                $this->setAhorroId($value);
                 break;
             case 2:
-                $this->setCantidad($value);
+                $this->setSocioId($value);
                 break;
             case 3:
-                $this->setComentario($value);
+                $this->setCantidad($value);
                 break;
             case 4:
-                $this->setCreatedAt($value);
+                $this->setComentario($value);
                 break;
             case 5:
+                $this->setCreatedAt($value);
+                break;
+            case 6:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1120,19 +1210,22 @@ abstract class Multa implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setSocioId($arr[$keys[1]]);
+            $this->setAhorroId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setCantidad($arr[$keys[2]]);
+            $this->setSocioId($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setComentario($arr[$keys[3]]);
+            $this->setCantidad($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setCreatedAt($arr[$keys[4]]);
+            $this->setComentario($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setUpdatedAt($arr[$keys[5]]);
+            $this->setCreatedAt($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setUpdatedAt($arr[$keys[6]]);
         }
     }
 
@@ -1177,6 +1270,9 @@ abstract class Multa implements ActiveRecordInterface
 
         if ($this->isColumnModified(MultaTableMap::COL_ID)) {
             $criteria->add(MultaTableMap::COL_ID, $this->id);
+        }
+        if ($this->isColumnModified(MultaTableMap::COL_AHORRO_ID)) {
+            $criteria->add(MultaTableMap::COL_AHORRO_ID, $this->ahorro_id);
         }
         if ($this->isColumnModified(MultaTableMap::COL_SOCIO_ID)) {
             $criteria->add(MultaTableMap::COL_SOCIO_ID, $this->socio_id);
@@ -1279,6 +1375,7 @@ abstract class Multa implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setAhorroId($this->getAhorroId());
         $copyObj->setSocioId($this->getSocioId());
         $copyObj->setCantidad($this->getCantidad());
         $copyObj->setComentario($this->getComentario());
@@ -1310,6 +1407,57 @@ abstract class Multa implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+    /**
+     * Declares an association between this object and a ChildAhorro object.
+     *
+     * @param  ChildAhorro $v
+     * @return $this|\Multa The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setAhorro(ChildAhorro $v = null)
+    {
+        if ($v === null) {
+            $this->setAhorroId(NULL);
+        } else {
+            $this->setAhorroId($v->getId());
+        }
+
+        $this->aAhorro = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildAhorro object, it will not be re-added.
+        if ($v !== null) {
+            $v->addMulta($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildAhorro object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildAhorro The associated ChildAhorro object.
+     * @throws PropelException
+     */
+    public function getAhorro(ConnectionInterface $con = null)
+    {
+        if ($this->aAhorro === null && ($this->ahorro_id != 0)) {
+            $this->aAhorro = ChildAhorroQuery::create()->findPk($this->ahorro_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aAhorro->addMultas($this);
+             */
+        }
+
+        return $this->aAhorro;
     }
 
     /**
@@ -1370,10 +1518,14 @@ abstract class Multa implements ActiveRecordInterface
      */
     public function clear()
     {
+        if (null !== $this->aAhorro) {
+            $this->aAhorro->removeMulta($this);
+        }
         if (null !== $this->aSocio) {
             $this->aSocio->removeMulta($this);
         }
         $this->id = null;
+        $this->ahorro_id = null;
         $this->socio_id = null;
         $this->cantidad = null;
         $this->comentario = null;
@@ -1399,6 +1551,7 @@ abstract class Multa implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aAhorro = null;
         $this->aSocio = null;
     }
 

@@ -59,7 +59,7 @@ class MultaTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 7;
 
     /**
      * The number of lazy-loaded columns
@@ -69,12 +69,17 @@ class MultaTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /**
      * the column name for the id field
      */
     const COL_ID = 'multa.id';
+
+    /**
+     * the column name for the ahorro_id field
+     */
+    const COL_AHORRO_ID = 'multa.ahorro_id';
 
     /**
      * the column name for the socio_id field
@@ -113,11 +118,11 @@ class MultaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'SocioId', 'Cantidad', 'Comentario', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'socioId', 'cantidad', 'comentario', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(MultaTableMap::COL_ID, MultaTableMap::COL_SOCIO_ID, MultaTableMap::COL_CANTIDAD, MultaTableMap::COL_COMENTARIO, MultaTableMap::COL_CREATED_AT, MultaTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'socio_id', 'cantidad', 'comentario', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id', 'AhorroId', 'SocioId', 'Cantidad', 'Comentario', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'ahorroId', 'socioId', 'cantidad', 'comentario', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(MultaTableMap::COL_ID, MultaTableMap::COL_AHORRO_ID, MultaTableMap::COL_SOCIO_ID, MultaTableMap::COL_CANTIDAD, MultaTableMap::COL_COMENTARIO, MultaTableMap::COL_CREATED_AT, MultaTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'ahorro_id', 'socio_id', 'cantidad', 'comentario', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -127,11 +132,11 @@ class MultaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'SocioId' => 1, 'Cantidad' => 2, 'Comentario' => 3, 'CreatedAt' => 4, 'UpdatedAt' => 5, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'socioId' => 1, 'cantidad' => 2, 'comentario' => 3, 'createdAt' => 4, 'updatedAt' => 5, ),
-        self::TYPE_COLNAME       => array(MultaTableMap::COL_ID => 0, MultaTableMap::COL_SOCIO_ID => 1, MultaTableMap::COL_CANTIDAD => 2, MultaTableMap::COL_COMENTARIO => 3, MultaTableMap::COL_CREATED_AT => 4, MultaTableMap::COL_UPDATED_AT => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'socio_id' => 1, 'cantidad' => 2, 'comentario' => 3, 'created_at' => 4, 'updated_at' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'AhorroId' => 1, 'SocioId' => 2, 'Cantidad' => 3, 'Comentario' => 4, 'CreatedAt' => 5, 'UpdatedAt' => 6, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'ahorroId' => 1, 'socioId' => 2, 'cantidad' => 3, 'comentario' => 4, 'createdAt' => 5, 'updatedAt' => 6, ),
+        self::TYPE_COLNAME       => array(MultaTableMap::COL_ID => 0, MultaTableMap::COL_AHORRO_ID => 1, MultaTableMap::COL_SOCIO_ID => 2, MultaTableMap::COL_CANTIDAD => 3, MultaTableMap::COL_COMENTARIO => 4, MultaTableMap::COL_CREATED_AT => 5, MultaTableMap::COL_UPDATED_AT => 6, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'ahorro_id' => 1, 'socio_id' => 2, 'cantidad' => 3, 'comentario' => 4, 'created_at' => 5, 'updated_at' => 6, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -152,6 +157,7 @@ class MultaTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('ahorro_id', 'AhorroId', 'INTEGER', 'ahorro', 'id', true, null, null);
         $this->addForeignKey('socio_id', 'SocioId', 'INTEGER', 'socio', 'id', true, null, null);
         $this->addColumn('cantidad', 'Cantidad', 'INTEGER', true, null, null);
         $this->addColumn('comentario', 'Comentario', 'VARCHAR', false, 250, null);
@@ -164,6 +170,13 @@ class MultaTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Ahorro', '\\Ahorro', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':ahorro_id',
+    1 => ':id',
+  ),
+), null, null, null, false);
         $this->addRelation('Socio', '\\Socio', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
@@ -328,6 +341,7 @@ class MultaTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(MultaTableMap::COL_ID);
+            $criteria->addSelectColumn(MultaTableMap::COL_AHORRO_ID);
             $criteria->addSelectColumn(MultaTableMap::COL_SOCIO_ID);
             $criteria->addSelectColumn(MultaTableMap::COL_CANTIDAD);
             $criteria->addSelectColumn(MultaTableMap::COL_COMENTARIO);
@@ -335,6 +349,7 @@ class MultaTableMap extends TableMap
             $criteria->addSelectColumn(MultaTableMap::COL_UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.ahorro_id');
             $criteria->addSelectColumn($alias . '.socio_id');
             $criteria->addSelectColumn($alias . '.cantidad');
             $criteria->addSelectColumn($alias . '.comentario');

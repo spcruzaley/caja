@@ -21,6 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildMultaQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildMultaQuery orderByAhorroId($order = Criteria::ASC) Order by the ahorro_id column
  * @method     ChildMultaQuery orderBySocioId($order = Criteria::ASC) Order by the socio_id column
  * @method     ChildMultaQuery orderByCantidad($order = Criteria::ASC) Order by the cantidad column
  * @method     ChildMultaQuery orderByComentario($order = Criteria::ASC) Order by the comentario column
@@ -28,6 +29,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMultaQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildMultaQuery groupById() Group by the id column
+ * @method     ChildMultaQuery groupByAhorroId() Group by the ahorro_id column
  * @method     ChildMultaQuery groupBySocioId() Group by the socio_id column
  * @method     ChildMultaQuery groupByCantidad() Group by the cantidad column
  * @method     ChildMultaQuery groupByComentario() Group by the comentario column
@@ -42,6 +44,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMultaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildMultaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
+ * @method     ChildMultaQuery leftJoinAhorro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Ahorro relation
+ * @method     ChildMultaQuery rightJoinAhorro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Ahorro relation
+ * @method     ChildMultaQuery innerJoinAhorro($relationAlias = null) Adds a INNER JOIN clause to the query using the Ahorro relation
+ *
+ * @method     ChildMultaQuery joinWithAhorro($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Ahorro relation
+ *
+ * @method     ChildMultaQuery leftJoinWithAhorro() Adds a LEFT JOIN clause and with to the query using the Ahorro relation
+ * @method     ChildMultaQuery rightJoinWithAhorro() Adds a RIGHT JOIN clause and with to the query using the Ahorro relation
+ * @method     ChildMultaQuery innerJoinWithAhorro() Adds a INNER JOIN clause and with to the query using the Ahorro relation
+ *
  * @method     ChildMultaQuery leftJoinSocio($relationAlias = null) Adds a LEFT JOIN clause to the query using the Socio relation
  * @method     ChildMultaQuery rightJoinSocio($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Socio relation
  * @method     ChildMultaQuery innerJoinSocio($relationAlias = null) Adds a INNER JOIN clause to the query using the Socio relation
@@ -52,12 +64,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMultaQuery rightJoinWithSocio() Adds a RIGHT JOIN clause and with to the query using the Socio relation
  * @method     ChildMultaQuery innerJoinWithSocio() Adds a INNER JOIN clause and with to the query using the Socio relation
  *
- * @method     \SocioQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \AhorroQuery|\SocioQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildMulta findOne(ConnectionInterface $con = null) Return the first ChildMulta matching the query
  * @method     ChildMulta findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMulta matching the query, or a new ChildMulta object populated from the query conditions when no match is found
  *
  * @method     ChildMulta findOneById(int $id) Return the first ChildMulta filtered by the id column
+ * @method     ChildMulta findOneByAhorroId(int $ahorro_id) Return the first ChildMulta filtered by the ahorro_id column
  * @method     ChildMulta findOneBySocioId(int $socio_id) Return the first ChildMulta filtered by the socio_id column
  * @method     ChildMulta findOneByCantidad(int $cantidad) Return the first ChildMulta filtered by the cantidad column
  * @method     ChildMulta findOneByComentario(string $comentario) Return the first ChildMulta filtered by the comentario column
@@ -68,6 +81,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMulta requireOne(ConnectionInterface $con = null) Return the first ChildMulta matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildMulta requireOneById(int $id) Return the first ChildMulta filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMulta requireOneByAhorroId(int $ahorro_id) Return the first ChildMulta filtered by the ahorro_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMulta requireOneBySocioId(int $socio_id) Return the first ChildMulta filtered by the socio_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMulta requireOneByCantidad(int $cantidad) Return the first ChildMulta filtered by the cantidad column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMulta requireOneByComentario(string $comentario) Return the first ChildMulta filtered by the comentario column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -76,6 +90,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildMulta[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildMulta objects based on current ModelCriteria
  * @method     ChildMulta[]|ObjectCollection findById(int $id) Return ChildMulta objects filtered by the id column
+ * @method     ChildMulta[]|ObjectCollection findByAhorroId(int $ahorro_id) Return ChildMulta objects filtered by the ahorro_id column
  * @method     ChildMulta[]|ObjectCollection findBySocioId(int $socio_id) Return ChildMulta objects filtered by the socio_id column
  * @method     ChildMulta[]|ObjectCollection findByCantidad(int $cantidad) Return ChildMulta objects filtered by the cantidad column
  * @method     ChildMulta[]|ObjectCollection findByComentario(string $comentario) Return ChildMulta objects filtered by the comentario column
@@ -179,7 +194,7 @@ abstract class MultaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, socio_id, cantidad, comentario, created_at, updated_at FROM multa WHERE id = :p0';
+        $sql = 'SELECT id, ahorro_id, socio_id, cantidad, comentario, created_at, updated_at FROM multa WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -308,6 +323,49 @@ abstract class MultaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MultaTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the ahorro_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAhorroId(1234); // WHERE ahorro_id = 1234
+     * $query->filterByAhorroId(array(12, 34)); // WHERE ahorro_id IN (12, 34)
+     * $query->filterByAhorroId(array('min' => 12)); // WHERE ahorro_id > 12
+     * </code>
+     *
+     * @see       filterByAhorro()
+     *
+     * @param     mixed $ahorroId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMultaQuery The current query, for fluid interface
+     */
+    public function filterByAhorroId($ahorroId = null, $comparison = null)
+    {
+        if (is_array($ahorroId)) {
+            $useMinMax = false;
+            if (isset($ahorroId['min'])) {
+                $this->addUsingAlias(MultaTableMap::COL_AHORRO_ID, $ahorroId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ahorroId['max'])) {
+                $this->addUsingAlias(MultaTableMap::COL_AHORRO_ID, $ahorroId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MultaTableMap::COL_AHORRO_ID, $ahorroId, $comparison);
     }
 
     /**
@@ -503,6 +561,83 @@ abstract class MultaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MultaTableMap::COL_UPDATED_AT, $updatedAt, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Ahorro object
+     *
+     * @param \Ahorro|ObjectCollection $ahorro The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildMultaQuery The current query, for fluid interface
+     */
+    public function filterByAhorro($ahorro, $comparison = null)
+    {
+        if ($ahorro instanceof \Ahorro) {
+            return $this
+                ->addUsingAlias(MultaTableMap::COL_AHORRO_ID, $ahorro->getId(), $comparison);
+        } elseif ($ahorro instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(MultaTableMap::COL_AHORRO_ID, $ahorro->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByAhorro() only accepts arguments of type \Ahorro or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Ahorro relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildMultaQuery The current query, for fluid interface
+     */
+    public function joinAhorro($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Ahorro');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Ahorro');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Ahorro relation Ahorro object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \AhorroQuery A secondary query class using the current class as primary query
+     */
+    public function useAhorroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinAhorro($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Ahorro', '\AhorroQuery');
     }
 
     /**

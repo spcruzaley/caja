@@ -165,6 +165,13 @@ class AhorroTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, null, false);
+        $this->addRelation('Multa', '\\Multa', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':ahorro_id',
+    1 => ':id',
+  ),
+), null, null, 'Multas', false);
     } // buildRelations()
 
     /**
