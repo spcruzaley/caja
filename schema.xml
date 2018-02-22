@@ -3,8 +3,10 @@
   <table name="socio" phpName="Socio">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
     <column name="nombre" type="varchar" size="255" required="true" />
+    <column name="telefono" type="varchar" size="15" required="true" />
     <column name="correo" type="varchar" size="50" required="false" />
     <column name="cantidad" type="integer" required="true"/>
+    <column name="activo" type="integer" default="1"/>
     <behavior name="timestampable" />
   </table>
   <table name="ahorro" phpName="Ahorro">

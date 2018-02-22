@@ -90,6 +90,13 @@ abstract class Socio implements ActiveRecordInterface
     protected $nombre;
 
     /**
+     * The value for the telefono field.
+     *
+     * @var        string
+     */
+    protected $telefono;
+
+    /**
      * The value for the correo field.
      *
      * @var        string
@@ -102,6 +109,14 @@ abstract class Socio implements ActiveRecordInterface
      * @var        int
      */
     protected $cantidad;
+
+    /**
+     * The value for the activo field.
+     *
+     * Note: this column has a database default value of: 1
+     * @var        int
+     */
+    protected $activo;
 
     /**
      * The value for the created_at field.
@@ -174,10 +189,23 @@ abstract class Socio implements ActiveRecordInterface
     protected $abonosScheduledForDeletion = null;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->activo = 1;
+    }
+
+    /**
      * Initializes internal state of Base\Socio object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -419,6 +447,16 @@ abstract class Socio implements ActiveRecordInterface
     }
 
     /**
+     * Get the [telefono] column value.
+     *
+     * @return string
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
      * Get the [correo] column value.
      *
      * @return string
@@ -436,6 +474,16 @@ abstract class Socio implements ActiveRecordInterface
     public function getCantidad()
     {
         return $this->cantidad;
+    }
+
+    /**
+     * Get the [activo] column value.
+     *
+     * @return int
+     */
+    public function getActivo()
+    {
+        return $this->activo;
     }
 
     /**
@@ -519,6 +567,26 @@ abstract class Socio implements ActiveRecordInterface
     } // setNombre()
 
     /**
+     * Set the value of [telefono] column.
+     *
+     * @param string $v new value
+     * @return $this|\Socio The current object (for fluent API support)
+     */
+    public function setTelefono($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->telefono !== $v) {
+            $this->telefono = $v;
+            $this->modifiedColumns[SocioTableMap::COL_TELEFONO] = true;
+        }
+
+        return $this;
+    } // setTelefono()
+
+    /**
      * Set the value of [correo] column.
      *
      * @param string $v new value
@@ -557,6 +625,26 @@ abstract class Socio implements ActiveRecordInterface
 
         return $this;
     } // setCantidad()
+
+    /**
+     * Set the value of [activo] column.
+     *
+     * @param int $v new value
+     * @return $this|\Socio The current object (for fluent API support)
+     */
+    public function setActivo($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->activo !== $v) {
+            $this->activo = $v;
+            $this->modifiedColumns[SocioTableMap::COL_ACTIVO] = true;
+        }
+
+        return $this;
+    } // setActivo()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
@@ -608,6 +696,10 @@ abstract class Socio implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->activo !== 1) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -640,19 +732,25 @@ abstract class Socio implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SocioTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SocioTableMap::translateFieldName('Correo', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SocioTableMap::translateFieldName('Telefono', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->telefono = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SocioTableMap::translateFieldName('Correo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->correo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SocioTableMap::translateFieldName('Cantidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SocioTableMap::translateFieldName('Cantidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->cantidad = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SocioTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : SocioTableMap::translateFieldName('Activo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->activo = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : SocioTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : SocioTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : SocioTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -665,7 +763,7 @@ abstract class Socio implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = SocioTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = SocioTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Socio'), 0, $e);
@@ -961,11 +1059,17 @@ abstract class Socio implements ActiveRecordInterface
         if ($this->isColumnModified(SocioTableMap::COL_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = 'nombre';
         }
+        if ($this->isColumnModified(SocioTableMap::COL_TELEFONO)) {
+            $modifiedColumns[':p' . $index++]  = 'telefono';
+        }
         if ($this->isColumnModified(SocioTableMap::COL_CORREO)) {
             $modifiedColumns[':p' . $index++]  = 'correo';
         }
         if ($this->isColumnModified(SocioTableMap::COL_CANTIDAD)) {
             $modifiedColumns[':p' . $index++]  = 'cantidad';
+        }
+        if ($this->isColumnModified(SocioTableMap::COL_ACTIVO)) {
+            $modifiedColumns[':p' . $index++]  = 'activo';
         }
         if ($this->isColumnModified(SocioTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
@@ -990,11 +1094,17 @@ abstract class Socio implements ActiveRecordInterface
                     case 'nombre':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
+                    case 'telefono':
+                        $stmt->bindValue($identifier, $this->telefono, PDO::PARAM_STR);
+                        break;
                     case 'correo':
                         $stmt->bindValue($identifier, $this->correo, PDO::PARAM_STR);
                         break;
                     case 'cantidad':
                         $stmt->bindValue($identifier, $this->cantidad, PDO::PARAM_INT);
+                        break;
+                    case 'activo':
+                        $stmt->bindValue($identifier, $this->activo, PDO::PARAM_INT);
                         break;
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
@@ -1071,15 +1181,21 @@ abstract class Socio implements ActiveRecordInterface
                 return $this->getNombre();
                 break;
             case 2:
-                return $this->getCorreo();
+                return $this->getTelefono();
                 break;
             case 3:
-                return $this->getCantidad();
+                return $this->getCorreo();
                 break;
             case 4:
-                return $this->getCreatedAt();
+                return $this->getCantidad();
                 break;
             case 5:
+                return $this->getActivo();
+                break;
+            case 6:
+                return $this->getCreatedAt();
+                break;
+            case 7:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1114,17 +1230,19 @@ abstract class Socio implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getNombre(),
-            $keys[2] => $this->getCorreo(),
-            $keys[3] => $this->getCantidad(),
-            $keys[4] => $this->getCreatedAt(),
-            $keys[5] => $this->getUpdatedAt(),
+            $keys[2] => $this->getTelefono(),
+            $keys[3] => $this->getCorreo(),
+            $keys[4] => $this->getCantidad(),
+            $keys[5] => $this->getActivo(),
+            $keys[6] => $this->getCreatedAt(),
+            $keys[7] => $this->getUpdatedAt(),
         );
-        if ($result[$keys[4]] instanceof \DateTimeInterface) {
-            $result[$keys[4]] = $result[$keys[4]]->format('c');
+        if ($result[$keys[6]] instanceof \DateTimeInterface) {
+            $result[$keys[6]] = $result[$keys[6]]->format('c');
         }
 
-        if ($result[$keys[5]] instanceof \DateTimeInterface) {
-            $result[$keys[5]] = $result[$keys[5]]->format('c');
+        if ($result[$keys[7]] instanceof \DateTimeInterface) {
+            $result[$keys[7]] = $result[$keys[7]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1234,15 +1352,21 @@ abstract class Socio implements ActiveRecordInterface
                 $this->setNombre($value);
                 break;
             case 2:
-                $this->setCorreo($value);
+                $this->setTelefono($value);
                 break;
             case 3:
-                $this->setCantidad($value);
+                $this->setCorreo($value);
                 break;
             case 4:
-                $this->setCreatedAt($value);
+                $this->setCantidad($value);
                 break;
             case 5:
+                $this->setActivo($value);
+                break;
+            case 6:
+                $this->setCreatedAt($value);
+                break;
+            case 7:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1278,16 +1402,22 @@ abstract class Socio implements ActiveRecordInterface
             $this->setNombre($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setCorreo($arr[$keys[2]]);
+            $this->setTelefono($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setCantidad($arr[$keys[3]]);
+            $this->setCorreo($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setCreatedAt($arr[$keys[4]]);
+            $this->setCantidad($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setUpdatedAt($arr[$keys[5]]);
+            $this->setActivo($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setCreatedAt($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setUpdatedAt($arr[$keys[7]]);
         }
     }
 
@@ -1336,11 +1466,17 @@ abstract class Socio implements ActiveRecordInterface
         if ($this->isColumnModified(SocioTableMap::COL_NOMBRE)) {
             $criteria->add(SocioTableMap::COL_NOMBRE, $this->nombre);
         }
+        if ($this->isColumnModified(SocioTableMap::COL_TELEFONO)) {
+            $criteria->add(SocioTableMap::COL_TELEFONO, $this->telefono);
+        }
         if ($this->isColumnModified(SocioTableMap::COL_CORREO)) {
             $criteria->add(SocioTableMap::COL_CORREO, $this->correo);
         }
         if ($this->isColumnModified(SocioTableMap::COL_CANTIDAD)) {
             $criteria->add(SocioTableMap::COL_CANTIDAD, $this->cantidad);
+        }
+        if ($this->isColumnModified(SocioTableMap::COL_ACTIVO)) {
+            $criteria->add(SocioTableMap::COL_ACTIVO, $this->activo);
         }
         if ($this->isColumnModified(SocioTableMap::COL_CREATED_AT)) {
             $criteria->add(SocioTableMap::COL_CREATED_AT, $this->created_at);
@@ -1435,8 +1571,10 @@ abstract class Socio implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setNombre($this->getNombre());
+        $copyObj->setTelefono($this->getTelefono());
         $copyObj->setCorreo($this->getCorreo());
         $copyObj->setCantidad($this->getCantidad());
+        $copyObj->setActivo($this->getActivo());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
 
@@ -2462,12 +2600,15 @@ abstract class Socio implements ActiveRecordInterface
     {
         $this->id = null;
         $this->nombre = null;
+        $this->telefono = null;
         $this->correo = null;
         $this->cantidad = null;
+        $this->activo = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

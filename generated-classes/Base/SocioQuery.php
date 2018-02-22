@@ -22,15 +22,19 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSocioQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSocioQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
+ * @method     ChildSocioQuery orderByTelefono($order = Criteria::ASC) Order by the telefono column
  * @method     ChildSocioQuery orderByCorreo($order = Criteria::ASC) Order by the correo column
  * @method     ChildSocioQuery orderByCantidad($order = Criteria::ASC) Order by the cantidad column
+ * @method     ChildSocioQuery orderByActivo($order = Criteria::ASC) Order by the activo column
  * @method     ChildSocioQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     ChildSocioQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildSocioQuery groupById() Group by the id column
  * @method     ChildSocioQuery groupByNombre() Group by the nombre column
+ * @method     ChildSocioQuery groupByTelefono() Group by the telefono column
  * @method     ChildSocioQuery groupByCorreo() Group by the correo column
  * @method     ChildSocioQuery groupByCantidad() Group by the cantidad column
+ * @method     ChildSocioQuery groupByActivo() Group by the activo column
  * @method     ChildSocioQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildSocioQuery groupByUpdatedAt() Group by the updated_at column
  *
@@ -89,8 +93,10 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSocio findOneById(int $id) Return the first ChildSocio filtered by the id column
  * @method     ChildSocio findOneByNombre(string $nombre) Return the first ChildSocio filtered by the nombre column
+ * @method     ChildSocio findOneByTelefono(string $telefono) Return the first ChildSocio filtered by the telefono column
  * @method     ChildSocio findOneByCorreo(string $correo) Return the first ChildSocio filtered by the correo column
  * @method     ChildSocio findOneByCantidad(int $cantidad) Return the first ChildSocio filtered by the cantidad column
+ * @method     ChildSocio findOneByActivo(int $activo) Return the first ChildSocio filtered by the activo column
  * @method     ChildSocio findOneByCreatedAt(string $created_at) Return the first ChildSocio filtered by the created_at column
  * @method     ChildSocio findOneByUpdatedAt(string $updated_at) Return the first ChildSocio filtered by the updated_at column *
 
@@ -99,16 +105,20 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSocio requireOneById(int $id) Return the first ChildSocio filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocio requireOneByNombre(string $nombre) Return the first ChildSocio filtered by the nombre column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSocio requireOneByTelefono(string $telefono) Return the first ChildSocio filtered by the telefono column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocio requireOneByCorreo(string $correo) Return the first ChildSocio filtered by the correo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocio requireOneByCantidad(int $cantidad) Return the first ChildSocio filtered by the cantidad column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSocio requireOneByActivo(int $activo) Return the first ChildSocio filtered by the activo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocio requireOneByCreatedAt(string $created_at) Return the first ChildSocio filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocio requireOneByUpdatedAt(string $updated_at) Return the first ChildSocio filtered by the updated_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSocio[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSocio objects based on current ModelCriteria
  * @method     ChildSocio[]|ObjectCollection findById(int $id) Return ChildSocio objects filtered by the id column
  * @method     ChildSocio[]|ObjectCollection findByNombre(string $nombre) Return ChildSocio objects filtered by the nombre column
+ * @method     ChildSocio[]|ObjectCollection findByTelefono(string $telefono) Return ChildSocio objects filtered by the telefono column
  * @method     ChildSocio[]|ObjectCollection findByCorreo(string $correo) Return ChildSocio objects filtered by the correo column
  * @method     ChildSocio[]|ObjectCollection findByCantidad(int $cantidad) Return ChildSocio objects filtered by the cantidad column
+ * @method     ChildSocio[]|ObjectCollection findByActivo(int $activo) Return ChildSocio objects filtered by the activo column
  * @method     ChildSocio[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildSocio objects filtered by the created_at column
  * @method     ChildSocio[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildSocio objects filtered by the updated_at column
  * @method     ChildSocio[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -209,7 +219,7 @@ abstract class SocioQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, nombre, correo, cantidad, created_at, updated_at FROM socio WHERE id = :p0';
+        $sql = 'SELECT id, nombre, telefono, correo, cantidad, activo, created_at, updated_at FROM socio WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -366,6 +376,31 @@ abstract class SocioQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the telefono column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTelefono('fooValue');   // WHERE telefono = 'fooValue'
+     * $query->filterByTelefono('%fooValue%', Criteria::LIKE); // WHERE telefono LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $telefono The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildSocioQuery The current query, for fluid interface
+     */
+    public function filterByTelefono($telefono = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($telefono)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SocioTableMap::COL_TELEFONO, $telefono, $comparison);
+    }
+
+    /**
      * Filter the query on the correo column
      *
      * Example usage:
@@ -429,6 +464,47 @@ abstract class SocioQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SocioTableMap::COL_CANTIDAD, $cantidad, $comparison);
+    }
+
+    /**
+     * Filter the query on the activo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByActivo(1234); // WHERE activo = 1234
+     * $query->filterByActivo(array(12, 34)); // WHERE activo IN (12, 34)
+     * $query->filterByActivo(array('min' => 12)); // WHERE activo > 12
+     * </code>
+     *
+     * @param     mixed $activo The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildSocioQuery The current query, for fluid interface
+     */
+    public function filterByActivo($activo = null, $comparison = null)
+    {
+        if (is_array($activo)) {
+            $useMinMax = false;
+            if (isset($activo['min'])) {
+                $this->addUsingAlias(SocioTableMap::COL_ACTIVO, $activo['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($activo['max'])) {
+                $this->addUsingAlias(SocioTableMap::COL_ACTIVO, $activo['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SocioTableMap::COL_ACTIVO, $activo, $comparison);
     }
 
     /**

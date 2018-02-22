@@ -13,8 +13,10 @@ CREATE TABLE `socio`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(255) NOT NULL,
+    `telefono` VARCHAR(15) NOT NULL,
     `correo` VARCHAR(50),
     `cantidad` INTEGER NOT NULL,
+    `activo` INTEGER DEFAULT 1,
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)

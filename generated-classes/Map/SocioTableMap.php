@@ -59,7 +59,7 @@ class SocioTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 8;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class SocioTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /**
      * the column name for the id field
@@ -82,6 +82,11 @@ class SocioTableMap extends TableMap
     const COL_NOMBRE = 'socio.nombre';
 
     /**
+     * the column name for the telefono field
+     */
+    const COL_TELEFONO = 'socio.telefono';
+
+    /**
      * the column name for the correo field
      */
     const COL_CORREO = 'socio.correo';
@@ -90,6 +95,11 @@ class SocioTableMap extends TableMap
      * the column name for the cantidad field
      */
     const COL_CANTIDAD = 'socio.cantidad';
+
+    /**
+     * the column name for the activo field
+     */
+    const COL_ACTIVO = 'socio.activo';
 
     /**
      * the column name for the created_at field
@@ -113,11 +123,11 @@ class SocioTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Nombre', 'Correo', 'Cantidad', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'nombre', 'correo', 'cantidad', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(SocioTableMap::COL_ID, SocioTableMap::COL_NOMBRE, SocioTableMap::COL_CORREO, SocioTableMap::COL_CANTIDAD, SocioTableMap::COL_CREATED_AT, SocioTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'nombre', 'correo', 'cantidad', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id', 'Nombre', 'Telefono', 'Correo', 'Cantidad', 'Activo', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'nombre', 'telefono', 'correo', 'cantidad', 'activo', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(SocioTableMap::COL_ID, SocioTableMap::COL_NOMBRE, SocioTableMap::COL_TELEFONO, SocioTableMap::COL_CORREO, SocioTableMap::COL_CANTIDAD, SocioTableMap::COL_ACTIVO, SocioTableMap::COL_CREATED_AT, SocioTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'nombre', 'telefono', 'correo', 'cantidad', 'activo', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -127,11 +137,11 @@ class SocioTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Nombre' => 1, 'Correo' => 2, 'Cantidad' => 3, 'CreatedAt' => 4, 'UpdatedAt' => 5, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'nombre' => 1, 'correo' => 2, 'cantidad' => 3, 'createdAt' => 4, 'updatedAt' => 5, ),
-        self::TYPE_COLNAME       => array(SocioTableMap::COL_ID => 0, SocioTableMap::COL_NOMBRE => 1, SocioTableMap::COL_CORREO => 2, SocioTableMap::COL_CANTIDAD => 3, SocioTableMap::COL_CREATED_AT => 4, SocioTableMap::COL_UPDATED_AT => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'nombre' => 1, 'correo' => 2, 'cantidad' => 3, 'created_at' => 4, 'updated_at' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Nombre' => 1, 'Telefono' => 2, 'Correo' => 3, 'Cantidad' => 4, 'Activo' => 5, 'CreatedAt' => 6, 'UpdatedAt' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'nombre' => 1, 'telefono' => 2, 'correo' => 3, 'cantidad' => 4, 'activo' => 5, 'createdAt' => 6, 'updatedAt' => 7, ),
+        self::TYPE_COLNAME       => array(SocioTableMap::COL_ID => 0, SocioTableMap::COL_NOMBRE => 1, SocioTableMap::COL_TELEFONO => 2, SocioTableMap::COL_CORREO => 3, SocioTableMap::COL_CANTIDAD => 4, SocioTableMap::COL_ACTIVO => 5, SocioTableMap::COL_CREATED_AT => 6, SocioTableMap::COL_UPDATED_AT => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'nombre' => 1, 'telefono' => 2, 'correo' => 3, 'cantidad' => 4, 'activo' => 5, 'created_at' => 6, 'updated_at' => 7, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -153,8 +163,10 @@ class SocioTableMap extends TableMap
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('nombre', 'Nombre', 'VARCHAR', true, 255, null);
+        $this->addColumn('telefono', 'Telefono', 'VARCHAR', true, 15, null);
         $this->addColumn('correo', 'Correo', 'VARCHAR', false, 50, null);
         $this->addColumn('cantidad', 'Cantidad', 'INTEGER', true, null, null);
+        $this->addColumn('activo', 'Activo', 'INTEGER', false, null, 1);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
     } // initialize()
@@ -350,15 +362,19 @@ class SocioTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(SocioTableMap::COL_ID);
             $criteria->addSelectColumn(SocioTableMap::COL_NOMBRE);
+            $criteria->addSelectColumn(SocioTableMap::COL_TELEFONO);
             $criteria->addSelectColumn(SocioTableMap::COL_CORREO);
             $criteria->addSelectColumn(SocioTableMap::COL_CANTIDAD);
+            $criteria->addSelectColumn(SocioTableMap::COL_ACTIVO);
             $criteria->addSelectColumn(SocioTableMap::COL_CREATED_AT);
             $criteria->addSelectColumn(SocioTableMap::COL_UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.nombre');
+            $criteria->addSelectColumn($alias . '.telefono');
             $criteria->addSelectColumn($alias . '.correo');
             $criteria->addSelectColumn($alias . '.cantidad');
+            $criteria->addSelectColumn($alias . '.activo');
             $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');
         }

@@ -5,9 +5,9 @@ $serviceContainer->setAdapterClass('caja_db', 'mysql');
 $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle();
 $manager->setConfiguration(array (
   'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
-  'dsn' => 'mysql:host=localhost',
+  'dsn' => 'mysql:host=localhost;dbname=caja_db',
   'user' => 'root',
-  'password' => 'root',
+  'password' => '',
   'model_paths' =>
   array (
     0 => 'src',
