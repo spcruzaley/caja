@@ -3,6 +3,7 @@
 require_once '../controller/IndexController.php';
 
 use \Slim\Slim as Slim;
+use \HtmlGenerator\HtmlTag as HtmlTag;
 
 $app = new Slim(array(
     'debug' => true,
@@ -11,8 +12,8 @@ $app = new Slim(array(
 
 $app->get('/', function () use ($app) {
     $indexCtrl = new IndexController();
-
-    $app->render('indexTemplate.php', array('socios' => $indexCtrl->getSocios()));
+    _e(HtmlTag::createElement('a'));
+    // $app->render('indexTemplate.php', array('socios' => $indexCtrl->getSocios()));
 });
 
 $app->run();

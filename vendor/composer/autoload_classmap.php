@@ -20,6 +20,8 @@ return array(
     'Base\\PrestamoQuery' => $baseDir . '/generated-classes/Base/PrestamoQuery.php',
     'Base\\Socio' => $baseDir . '/generated-classes/Base/Socio.php',
     'Base\\SocioQuery' => $baseDir . '/generated-classes/Base/SocioQuery.php',
+    'HtmlGenerator\\HtmlTag' => $baseDir . '/common/HtmlTag.php',
+    'HtmlGenerator\\Markup' => $baseDir . '/common/Markup.php',
     'Map\\AbonoTableMap' => $baseDir . '/generated-classes/Map/AbonoTableMap.php',
     'Map\\AhorroTableMap' => $baseDir . '/generated-classes/Map/AhorroTableMap.php',
     'Map\\MultaTableMap' => $baseDir . '/generated-classes/Map/MultaTableMap.php',

@@ -3,6 +3,7 @@
 require_once '../controller/MultaController.php';
 
 use \Slim\Slim as Slim;
+use \HtmlGenerator\HtmlTag as HtmlTag;
 
 $app = new Slim(array(
     'debug' => true,
@@ -10,7 +11,11 @@ $app = new Slim(array(
 ));
 
 $app->get('/', function () use ($app) {
-    echo "<a href='/multa.php/registrar'>Registrar multa</a>";
+    $tag = HtmlTag::createElement('a')
+                    ->set('href','/multa.php/registrar')
+                    ->text('Registrar multa');
+
+    _e($tag);
 });
 
 $app->get('/registrar', function () use ($app) {

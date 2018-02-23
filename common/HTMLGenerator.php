@@ -1,23 +1,37 @@
 <?php
 
-require 'HTML.php';
+use \HtmlGenerator\HtmlTag as HtmlTag;
 
 class HTMLGenerator {
 
     public function generateSelectWithSocios($params, $socios) {
-        HTML::getSelectHead($params);
+        $tag = HtmlTag::createElement('select')
+                        ->addCustomParams($params)
+                        ->addElement('option');
+
         foreach ($socios as $key => $socio) {
-            echo "<option value='".$socio->getId()."'>".$socio->getNombre()."</option>\n";
+            $tag->getParent()
+            ->addElement('option')
+            ->addCustomParam('value',$socio->getId())
+            ->text($socio->getNombre());
         }
-        HTML::getSelectFoot();
+
+        _e($tag);
     }
 
     public function generateSelectWithAhorros($params, $ahorros) {
-        HTML::getSelectHead($params);
+        $tag = HtmlTag::createElement('select')
+                        ->addCustomParams($params)
+                        ->addElement('option');
+
         foreach ($ahorros as $key => $ahorro) {
-            echo "<option value='".$ahorro->getId()."'>".$ahorro->getSocioId()."</option>\n";
+            $tag->getParent()
+            ->addElement('option')
+            ->addCustomParam('value',$ahorro->getId())
+            ->text($ahorro->getSocioId());
         }
-        HTML::getSelectFoot();
+
+        _e($tag);
     }
 
 }
