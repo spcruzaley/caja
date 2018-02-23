@@ -14,3 +14,7 @@
 [2018-02-22 23:03:20] defaultLogger.ERROR: [Ocurrio un error al agregar la multa.] Undefined index: comentario [] []
 [2018-02-22 23:04:43] defaultLogger.ERROR: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`caja_db`.`multa`, CONSTRAINT `multa_fk_415ccd` FOREIGN KEY (`ahorro_id`) REFERENCES `ahorro` (`id`)) [] []
 [2018-02-22 23:04:43] defaultLogger.ERROR: [Ocurrio un error al agregar la multa.] Unable to execute INSERT statement [INSERT INTO multa (id, socio_id, cantidad, comentario, created_at, updated_at) VALUES (:p0, :p1, :p2, :p3, :p4, :p5)] [] []
+[2018-02-23 15:46:20] defaultLogger.WARNING: [El prestamo no se registro, vuelva a intentarlo.] 0 [] []
+[2018-02-23 15:46:39] defaultLogger.ERROR: [Ocurrio un error al agregar el prestamo.] Excepcion lanzada en prestamo [] []
+[2018-02-23 16:04:18] defaultLogger.WARNING: [El abono no se registro, vuelva a intentarlo.] 0 [] []
+[2018-02-23 16:04:47] defaultLogger.ERROR: [Ocurrio un error al agregar la abono.] Excepcion en registro abono [] []

@@ -11,9 +11,9 @@ $app = new Slim(array(
 ));
 
 $app->get('/', function () use ($app) {
-    $indexCtrl = new IndexController();
-    _e(HtmlTag::createElement('a'));
-    // $app->render('indexTemplate.php', array('socios' => $indexCtrl->getSocios()));
+    // $indexCtrl = new IndexController();
+    // _e(HtmlTag::createElement('a'));
+    $app->render('indexTemplate.php');
 });
 
 $app->run();

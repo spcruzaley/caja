@@ -10,7 +10,7 @@ $app = new Slim(array(
 ));
 
 $app->get('/', function () use ($app) {
-    echo "<a href='/socio.php/registrar'>Registrar</a>";
+    echo "<a href='/socio.php/registrar'>Registrar socio</a>";
 });
 
 $app->get('/registrar', function () use ($app) {
