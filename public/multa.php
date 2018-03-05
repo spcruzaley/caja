@@ -16,6 +16,8 @@ $app->get('/', function () use ($app) {
                     ->text('Registrar multa');
 
     _e($tag);
+    echo "<br /><a href='/multa.php/consultar'>Multas</a><br />";
+    echo "<a href='/multa.php/consultar/1'>Multa por id</a><br />";
 });
 
 $app->get('/registrar', function () use ($app) {
@@ -26,6 +28,11 @@ $app->get('/registrar', function () use ($app) {
     $app->render('formulario_registro_multa.php', array('socios' => $socios, 'ahorros' => $ahorros));
 });
 
+$app->post('/registrar', function () use ($app) {
+    $multaCtrl = new MultaController();
+    _d($multaCtrl->insertMulta($_POST));
+});
+
 $app->get('/consultar', function () use ($app) {
     $multaCtrl = new MultaController();
     $multas = $multaCtrl->getMultas();
@@ -33,9 +40,11 @@ $app->get('/consultar', function () use ($app) {
     _d($multas);
 });
 
-$app->post('/registrar', function () use ($app) {
+$app->get('/consultar/:id', function ($id) use ($app) {
     $multaCtrl = new MultaController();
-    _d($multaCtrl->insertMulta($_POST));
+    $multas = $multaCtrl->selectMultasBySocioId($id);
+
+    _d($multas);
 });
 
 $app->run();

@@ -27,6 +27,20 @@ class prestamoController extends Controller {
         }
     }
 
+    function selectPrestamosBySocioId($id) {
+        try {
+            $retorno = PrestamoQuery::create()->findBySocioId($id);
+
+            if(NULL !== $retorno && count($retorno) > 0) {
+                return $this->success("Informacion encontrada", $retorno);
+            } else {
+                return $this->warning("No existen prestamos para este socio");
+            }
+        } catch(Exception $e) {
+            return $this->error("Ocurrio un error al obtenre prestamos para el id de socio $id.", $e);
+        }
+    }
+
 }
 
 ?>

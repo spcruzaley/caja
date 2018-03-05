@@ -31,7 +31,7 @@ class MultaController extends Controller {
         try {
             $retorno = MultaQuery::create()->findBySocioId($id);
 
-            if(NULL !== $retorno) {
+            if(NULL !== $retorno && count($retorno) > 0) {
                 return $this->success("Informacion encontrada", $retorno);
             } else {
                 return $this->warning("No existen multas para este socio");

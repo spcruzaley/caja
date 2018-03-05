@@ -48,11 +48,25 @@ class Controller {
     }
     public function warning($msg, $return="") {
         $this->log->warning("[$msg] ".$return);
-        return array('status' => 'warning', 'msg' => $msg." -- ".$return);
+        return array('status' => 'warning', 'msg' => $msg." -- ".$return, 'data' => []);
     }
     public function error($msg, $e) {
         $this->log->error("[$msg] ".((NULL !== $e)?($e->getMessage()):""));
-        return array('status' => 'error', 'msg' => $msg." -- ".((NULL !== $e)?($e->getMessage()):""));
+        return array('status' => 'error', 'msg' => $msg." -- ".((NULL !== $e)?($e->getMessage()):""), 'data' => []);
+    }
+
+    //////////////
+    public function hasAhorros($socio) {
+        return (count($socio->getAhorros()) > 0)?true:false;
+    }
+    public function hasMultas($socio) {
+        return (count($socio->getMultas()) > 0)?true:false;
+    }
+    public function hasPrestamos($socio) {
+        return (count($socio->getPrestamos()) > 0)?true:false;
+    }
+    public function hasAbonos($socio) {
+        return (count($socio->getAbonos()) > 0)?true:false;
     }
 
 }
