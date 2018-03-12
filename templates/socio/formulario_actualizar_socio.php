@@ -1,4 +1,5 @@
-<div id="formulario_actualizar_sformulario_actualizar_socio nb· ocio">
+<!-- Content -->
+<div id="formulario_actualizar_socio">
 <form action="/socio.php/actualizar" method="post">
     SocioID (Campo hidden):&nbsp;<input type="text" name="socioId" id="socioId" value="<?php _e($socio->getId()); ?>"><br />
     Nombre:&nbsp;<input type="text" name="nombre" id="nombre" value="<?php _e($socio->getNombre()); ?>"><br />
@@ -8,3 +9,4 @@
     <input type="submit" /><br />
 </form>
 </div>
+<!-- End Content -->

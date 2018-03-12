@@ -1,6 +1,4 @@
-<?php
-
-?>
+<!-- Content -->
 <div id="formulario_registro_multa">
 <form action="registrar" method="post">
     Socios:&nbsp;<?php HTMLGenerator::generateSelectWithSocios($socios);  ?><br />
@@ -10,3 +8,4 @@
     <input type="submit" /><br />
 </form>
 </div>
+<!-- End Content -->

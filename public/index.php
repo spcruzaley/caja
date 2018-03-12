@@ -1,19 +1,24 @@
 <?php
 
-require_once '../controller/IndexController.php';
+require '../controller/IndexController.php';
+require '../views/CustomView.php';
 
 use \Slim\Slim as Slim;
 use \HtmlGenerator\HtmlTag as HtmlTag;
 
+$view = new CustomView();
+
 $app = new Slim(array(
     'debug' => true,
-    'templates.path' => '../templates'
+    'templates.path' => '../templates',
+    'view' => $view
 ));
 
 $app->get('/', function () use ($app) {
-    // $indexCtrl = new IndexController();
-    // _e(HtmlTag::createElement('a'));
+    $data = array('title' => "Dashboard", );
+    
     $app->render('indexTemplate.php');
+    //$app->render('home.php');
 });
 
 $app->run();

@@ -1,13 +1,17 @@
 <?php
 
 require_once '../controller/AbonoController.php';
+require '../views/CustomView.php';
 
 use \Slim\Slim as Slim;
 use \HtmlGenerator\HtmlTag as HtmlTag;
 
+$view = new CustomView();
+
 $app = new Slim(array(
     'debug' => true,
-    'templates.path' => '../templates/abono/'
+    'templates.path' => '../templates/abono/',
+    'view' => $view
 ));
 
 $app->get('/', function () use ($app) {

@@ -44,15 +44,15 @@ class Controller {
 
     //////////////
     public function success($msg, $data="") {
-        return array('status' => 'success', 'msg' => $msg, 'data' => $data);
+        return array('status' => 'success', 'message' => $msg, 'data' => $data);
     }
     public function warning($msg, $return="") {
         $this->log->warning("[$msg] ".$return);
-        return array('status' => 'warning', 'msg' => $msg." -- ".$return, 'data' => []);
+        return array('status' => 'warning', 'message' => $msg." -- ".$return, 'data' => []);
     }
     public function error($msg, $e) {
         $this->log->error("[$msg] ".((NULL !== $e)?($e->getMessage()):""));
-        return array('status' => 'error', 'msg' => $msg." -- ".((NULL !== $e)?($e->getMessage()):""), 'data' => []);
+        return array('status' => 'danger', 'message' => $msg." -- ".((NULL !== $e)?($e->getMessage()):""), 'data' => []);
     }
 
     //////////////
@@ -67,6 +67,14 @@ class Controller {
     }
     public function hasAbonos($socio) {
         return (count($socio->getAbonos()) > 0)?true:false;
+    }
+
+    public function hasElements($object) {
+        if($object['status'] === "success") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

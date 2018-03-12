@@ -4,8 +4,10 @@
 require_once 'vendor/autoload.php';
 // setup Propel
 require_once 'generated-conf/config.php';
-// setup common classes
-require '../common/HTMLGenerator.php';
+
+require '../helpers/HtmlElements.php';
+require '../common/Constants.php';
+require '../common/Utils.php';
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;

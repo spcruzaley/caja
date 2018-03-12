@@ -1,12 +1,16 @@
 <?php
 
 require_once '../controller/PrestamoController.php';
+require '../views/CustomView.php';
 
 use \Slim\Slim as Slim;
 
+$view = new CustomView();
+
 $app = new Slim(array(
     'debug' => true,
-    'templates.path' => '../templates/prestamo/'
+    'templates.path' => '../templates/prestamo/',
+    'view' => $view
 ));
 
 $app->get('/', function () use ($app) {

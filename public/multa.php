@@ -1,13 +1,17 @@
 <?php
 
 require_once '../controller/MultaController.php';
+require '../views/CustomView.php';
 
 use \Slim\Slim as Slim;
 use \HtmlGenerator\HtmlTag as HtmlTag;
 
+$view = new CustomView();
+
 $app = new Slim(array(
     'debug' => true,
-    'templates.path' => '../templates/multa/'
+    'templates.path' => '../templates/multa/',
+    'view' => $view
 ));
 
 $app->get('/', function () use ($app) {
