@@ -33,6 +33,21 @@ class Utils {
         return $months;
     }
 
+    function getSavedWeeksFromCurrentWeek($ahorros) {
+        $week = Utils::getCurrentWeek();
+        $weeksAdvance = 0;
+
+        if(count($ahorros->toArray()) > 0) {
+            foreach ($ahorros as $key => $ahorro) {
+                if($ahorro->getSemana() > $week) {
+                    $weeksAdvance += 1;
+                }
+            }
+        }
+        
+        return count($ahorros->toArray())-$weeksAdvance;
+    }
+
 }
 
 ?>

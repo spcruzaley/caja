@@ -29,18 +29,18 @@
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="menu-icon fa fa-money"></i>Prestamos</a>
+                        <i class="menu-icon fa fa-usd"></i>Prestamos</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-money"></i><a href="/prestamo.php/registrar">Registrar prestamo</a></li>
-                            <li><i class="menu-icon fa fa-money"></i><a href="/prestamo.php/consultar">Consultar prestamo</a></li>
+                            <!-- <li><i class="menu-icon fa fa-money"></i><a href="/prestamo.php/consultar">Consultar prestamo</a></li> -->
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="menu-icon fa fa-money"></i>Abonos</a>
+                        <i class="menu-icon fa fa-usd"></i>Abonos</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-usd"></i><a href="/abono.php/registrar">Registrar abono</a></li>
-                            <li><i class="menu-icon fa fa-usd"></i><a href="/abono.php/consultar">Consultar abonos</a></li>
+                            <li><i class="menu-icon fa fa-money"></i><a href="/abono.php/registrar">Registrar abono</a></li>
+                            <!-- <li><i class="menu-icon fa fa-money"></i><a href="/abono.php/consultar">Consultar abonos</a></li> -->
                         </ul>
                     </li>
 

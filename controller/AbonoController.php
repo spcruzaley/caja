@@ -13,8 +13,8 @@ class AbonoController extends Controller {
             $abono = new Abono();
             $abono->setSocioId($data['socioId']);
             $abono->setPrestamoId($data['prestamoId']);
-            $abono->setCapital($data['capital']);
-            $abono->setInteres($data['interes']);
+            $abono->setCapital(isset($data['capital'])?$data['capital']:0);
+            $abono->setInteres(isset($data['interes'])?$data['interes']:0);
             $abono->setComentario($data['comentario']);
             $retorno = $abono->save();
 

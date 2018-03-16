@@ -22,13 +22,19 @@ $app->get('/', function () use ($app) {
 $app->get('/registrar', function () use ($app) {
     $prestamoCtrl = new PrestamoController();
     $socios = $prestamoCtrl->getSocios();
+    $scripts = HtmlElements::getSelectScripts();
+    $scripts .= HtmlElements::getPrestamoScripts();
 
-    $app->render('formulario_registro_prestamo.php', array('socios' => $socios));
+    $app->render('formulario_registro_prestamo.php', array('socios' => $socios,
+                                'scripts' => $scripts,
+                                'styles' => HtmlElements::getSelectStyles()));
 });
 
 $app->post('/registrar', function () use ($app) {
     $prestamoCtrl = new PrestamoController();
-    _d($prestamoCtrl->insertPrestamo($_POST));
+    $result = $prestamoCtrl->insertPrestamo($_POST);
+
+    _e(json_encode($result));
 });
 
 $app->get('/consultar', function () use ($app) {

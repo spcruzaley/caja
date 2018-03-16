@@ -32,12 +32,12 @@ jQuery(document).ready(function($) {
 
                 var status = data['status'];
                 var message = data['message'];
-                var socioId = jQuery("#socioId").val();
+                var link = "<br /><a href='/socio.php/consultar/"+selectSocio.val()+"'><i>Detalles del socio...</i></a>";
 
-                updateMessageResult(status, message);
+                updateMessageResult(status, message+link);
 
                 if(status === "success") {
-                    populateSemanas(socioId);
+                    populateSemanas(selectSocio.val());
                 }
                 jQuery("#semana").prop('disabled', true);
             },
@@ -74,6 +74,8 @@ function populateSemanas(socioId) {
 
         success: function(data) {
             data = JSON.parse(data);
+
+            jQuery('#cantidad').val(data['socio']['Cantidad']);
 
             if(data['ahorros']) {
                 var ahorros = data['ahorros'];

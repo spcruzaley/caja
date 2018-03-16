@@ -32,9 +32,10 @@
                             if (is_array($ahorros)) {
                                 _e(Utils::moneyFormatter(0));
                             } else {
+                                $savedWeeks = Utils::getSavedWeeksFromCurrentWeek($ahorros);
                                 _e(
                                     Utils::moneyFormatter(
-                                        (Utils::getCurrentWeek()-count($ahorros->toArray())) * $socio->getCantidad()
+                                        (Utils::getCurrentWeek()-$savedWeeks) * $socio->getCantidad()
                                     )
                                 );
                             }
@@ -69,9 +70,9 @@
                                 $interesAtrasado = 0;
                                 foreach ($prestamos as $key => $prestamo) {
                                     $mesesTranscurridos = Utils::getMonthsFromdate($prestamo->getCreatedAt()->format("d-m-Y"));
+                                    $numAbonos = 0;
 
                                     foreach ($abonos as $key => $abono) {
-                                        $numAbonos = 0;
                                         if($abono->getPrestamoId() == $prestamo->getId() && $abono->getCapital() != 0) {
                                             $numAbonos += 1;
                                         }
@@ -110,6 +111,7 @@
         <div class="card">
             <div class="card-header">
                 <strong class="card-title">Ahorros</strong>
+                &nbsp;&nbsp;<i>(<a href="/ahorro.php/registrar">Registrar ahorro...</a>)</i>
             </div>
             <div class="card-body">
                 <table class="table">
@@ -185,6 +187,7 @@
         <div class="card">
             <div class="card-header">
                 <strong class="card-title">Prestamos</strong>
+                &nbsp;&nbsp;<i>(<a href="/prestamo.php/registrar">Registrar prestamo...</a>)</i>
             </div>
             <div class="card-body">
                 <table class="table">
@@ -229,6 +232,7 @@
         <div class="card">
             <div class="card-header">
                 <strong class="card-title">Abonos</strong>
+                &nbsp;&nbsp;<i>(<a href="/abono.php/registrar">Registrar abono...</a>)</i>
             </div>
             <div class="card-body">
                 <table class="table">

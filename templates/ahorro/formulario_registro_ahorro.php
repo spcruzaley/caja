@@ -19,7 +19,7 @@
                         </select>
                     </div>
                     <div id="divCheckbox" class="form-group">
-                        <label>Semana actual?&nbsp;&nbsp;</label>
+                        <label>Semana actual <i>(actual: <?php _e(Utils::getCurrentWeek()) ?>)</i> ?&nbsp;&nbsp;</label>
                         <label class="switch switch-3d switch-primary mr-3">
                             <input class="switch-input" checked="true" type="checkbox" name="checkSemanaActual" id="checkSemanaActual">
                             <span class="switch-label"></span>
@@ -27,7 +27,7 @@
                         </label>
                     </div>
                     <div id="divSemana" class="form-group">
-                        <label class=" form-control-label">Semana</label>
+                        <label class=" form-control-label">Semana <i>(Se muestra de acuerdo a las semanas atrasadas/adelantadas)</i></label>
                         <div class="input-group">
                             <input class="form-control" type="text" name="semana" id="semana" disabled>
                         </div>

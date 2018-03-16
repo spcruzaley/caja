@@ -61,6 +61,18 @@ class HtmlElements {
         return $scripts;
     }
 
+    function getPrestamoScripts() {
+        $scripts = "<script src='/assets/js/prestamo.js'></script>\n";
+
+        return $scripts;
+    }
+
+    function getAbonoScripts() {
+        $scripts = "<script src='/assets/js/abono.js'></script>\n";
+
+        return $scripts;
+    }
+
 }
 
 ?>

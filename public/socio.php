@@ -81,32 +81,35 @@ $app->post('/consultar/:id', function ($id) use ($app) {
     $socioCtrl = new SocioController();
     $socio = $socioCtrl->selectSocio($id);
     $semanaActual = Utils::getCurrentWeek();
-    $semanaActualBol = false;
     $result = [];
-    $max = 0;
 
     if($socioCtrl->hasElements($socio)) {
         $result += ['socio' => $socio['data']->toArray()];
 
         //Getting ahorros
         $ahorros = $socio['data']->getAhorros();
+
+
         if(!$ahorros->isEmpty()) {
             $result += ['ahorros' => $ahorros->toArray()];
 
-            foreach ($ahorros as $key => $ahorro) {
-                if($max < $ahorro->getSemana() && $ahorro->getSemana() < 40) {
-                    $max = $ahorro->getSemana();
-                }
-                if($semanaActual == $ahorro->getSemana()) {
-                    $semanaActualBol = true;
-                }
-            }
+            /////////////////////////////////////////////////////
+            $arreglo = $ahorros->toArray();
+            $arreglo2 = [];
 
-            if($max == $semanaActual) {
-                $semanaActual += 1;
-            } else if($max > $semanaActual && $semanaActualBol) {
-                $semanaActual = $max + 1;
+            for ($i=0; $i < 40; $i++) {
+                $arreglo2[$i] = 0;
             }
+            foreach ($ahorros as $key => $ahorro) {
+                $arreglo2[$ahorro->getSemana()-1] = 1;
+            }
+            for ($i=0; $i < 40 ; $i++) {
+                if($arreglo2[$i] == 0) {
+                    $semanaActual = $i+1;
+                    break;
+                }
+            }
+            ////////////////////////////////////////////////////
 
 
             $result += ['semanaActual' => $semanaActual];
